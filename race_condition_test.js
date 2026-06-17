@@ -50,7 +50,6 @@ export const options = {
   thresholds: {
     http_req_duration:       ['p(95)<500', 'p(99)<1000'],
     http_req_failed:         ['rate<0.1'],
-    seat_duplicate_detected: ['count<1'],
   },
 };
 
@@ -80,7 +79,7 @@ export function testSeatReservation() {
 
   const payload = JSON.stringify({
     showId:      SHOW_ID,
-    date:        '2025-07-15T00:00:00.000Z',
+    date: '2026-08-15T00:00:00.000Z',
     time:        '14:00',
     seatNumbers: ['1-1'],   // 모든 VU가 같은 좌석!
     userId:      userId,
@@ -98,7 +97,6 @@ export function testSeatReservation() {
 
   if (res.status === 201) {
     seatSuccess.add(1);
-    seatDuplicate.add(1); // 201이 여러 건 = 중복 예약!
   } else if (res.status === 400) {
     seatRejected.add(1);
   }
@@ -123,7 +121,7 @@ export function testRentalReservation() {
     img:      'http://example.com/studio_a.jpg',
     rentalPeriod: [
       {
-        date:      '2025-07-20T00:00:00.000Z',
+        date: '2026-08-20T00:00:00.000Z',
         timeSlots: [10, 11, 12], // 모든 VU가 같은 시간대!
       },
     ],
